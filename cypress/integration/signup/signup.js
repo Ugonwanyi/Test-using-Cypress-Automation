@@ -24,11 +24,18 @@ Then("I leave the password textbox empty", () => {
   Then("I fill the password textbox", () => {
     cy.get("#sign-password").type("tester")
   });
+
+
+  When ('I enter a valid username and password', function(){
+    cy.get('#sign-username').type("ugotest")
+    cy.get('#sign-password').type("test123")
+  });
   
   Then ('I enter an existing username and password', function(){
     cy.get('#sign-username').type("ugonwanyi")
     cy.get('#sign-password').type("ugo@dblaze123")
-})
+});
+
   Then("I leave the username textbox empty", () => {
       cy.get("#sign-username").clear();
     });
@@ -37,10 +44,22 @@ Then("I confirm the sign-up", () => {
   cy.get("button[onclick='register()']").click();
 });
 
-Then("I should see an error message", () => {
- cy.on("window:alert", (alertText) => {
-   expect(alertText).to.contain("This user already exist.");
+ Then('I should see an error message "Please fill out Username and Password."', () => {
+  cy.on("window:alert", (alertText) => {
+    expect(alertText).to.contain("This user already exist.");
+ });
 });
+
+Then('I should see an error message "This user already exist."', () => {
+  cy.on("window:alert", (alertText) => {
+    expect(alertText).to.equal("This user already exist.");
+  });
+});
+
+Then('I should see a success message "Sign up successful"', () => {
+  cy.on("window:alert", (alertText) => {
+    expect(alertText).to.equal("Sign up successful");
+  });
 });
 
 Then('the password should not be displayed in plaintext', () => {
