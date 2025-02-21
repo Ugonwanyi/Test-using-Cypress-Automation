@@ -24,3 +24,24 @@ Then ('I verify successful login with successful message', function(){
         expect(alertText).to.contain("Sign up successful.");
     });
 });
+
+
+Then ('the signup page should be displayed', function(){
+     cy.get('#signin2').should('be.visible');     
+});
+
+Then ("I leave the username or password field empty", () => {
+     cy.get("#sign-username").clear();
+     cy.get("#sign-password").clear();
+   });
+   
+   Then ("I confirm the sign-up", () => {
+     cy.get("button[onclick='register()']").click();
+   });
+   
+   Then("I should see an error message", () => {
+     cy.on("window:alert", (alertText) => {
+         expect(alertText).to.equal("Please fill out Username and Password.");
+     });
+ });
+
